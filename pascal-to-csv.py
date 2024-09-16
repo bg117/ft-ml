@@ -33,7 +33,7 @@ def xml_parse(d, t):
 
             value = (
                 t,
-                xml_file,
+                os.sep.join(os.path.normpath(xml_file).split(os.sep)[-2:]),
                 label,
                 round(xmin / width, 2),
                 round(ymin / height, 2),
