@@ -1,6 +1,7 @@
 import glob, sys, getopt, os
 import pandas as pd
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 
 def xml_to_csv(path):
@@ -33,7 +34,7 @@ def xml_parse(d, t):
 
             value = (
                 t,
-                os.sep.join(os.path.normpath(xml_file).split(os.sep)[-2:]),
+                Path(xml_file).with_suffix(".jpg"),
                 label,
                 round(xmin / width, 2),
                 round(ymin / height, 2),
