@@ -6,10 +6,19 @@ import xml.etree.ElementTree as ET
 def xml_to_csv(path):
     
     xml_list = []
-    xml_files = sorted(glob.glob(path + "/*.xml"))
+    train_xml = glob.glob(path + "/train/*.xml"))
+    valid_xml = glob.glob(path + "/valid/*.xml"))
+    test_xml = glob.glob(path + "/test/*.xml"))
 
-    for xml_file in xml_files:
-        
+    xml_list.append(xml_parse(train_xml, "TRAIN"))
+    xml_list.append(xml_parse(valid_xml, "VALIDATION"))
+    xml_list.append(xml_parse(test_xml, "TEST"))
+
+    return pd.DataFrame(xml_list)
+
+def xml_parse(d, t):
+    xml_list = []
+    for xml_file in d:
         tree = ET.parse(xml_file)
         root = tree.getroot()
         filename = os.path.basename(root.find("filename").text)
@@ -26,7 +35,7 @@ def xml_to_csv(path):
             height = int(root.find("size")[1].text)
 
             value = (
-                "TRAIN",
+                t,
                 path + "/" + filename,
                 label,
                 round(xmin / width, 2),
@@ -40,41 +49,6 @@ def xml_to_csv(path):
             )
 
             xml_list.append(value)
-
-            value = (
-                "TEST",
-                path + "/" + filename,
-                label,
-                round(xmin / width, 2),
-                round(ymin / height, 2),
-                "",
-                "",
-                round(xmax / width, 2),
-                round(ymax / height, 2),
-                "",
-                ""
-            )
-            
-            xml_list.append(value)
-
-            value = (
-                "VALIDATION",
-                path + "/" + filename,
-                label,
-                round(xmin / width, 2),
-                round(ymin / height, 2),
-                "",
-                "",
-                round(xmax / width, 2),
-                round(ymax / height, 2),
-                "",
-                ""
-            )
-            
-            xml_list.append(value)
-
-    return pd.DataFrame(xml_list)
-
 
 def main(argv):
 

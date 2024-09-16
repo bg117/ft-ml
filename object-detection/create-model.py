@@ -38,9 +38,9 @@ def main(argv):
     start = round(time.time() * 1000)
 
     # select object recognition model architecture
-    spec = model_spec.get("efficientdet_lite0")
-    spec.config.var_freeze_expr = "(efficientnet|fpn_cells|resample_p6)"
+    spec = model_spec.get("efficientdet_lite1")
     spec.config.tflite_max_detections = 25
+    spec.config.max_instances_per_image = 2000
 
     print(spec.config)
 
@@ -50,10 +50,11 @@ def main(argv):
     # customize the TensorFlow model
     model = object_detector.create(
         train_data,
+        validation_data=validation_data,
         model_spec=spec,
         batch_size=batch_size,
         epochs=epochs,
-        train_whole_model=False
+        train_whole_model=True
     )
     model.summary()
 
