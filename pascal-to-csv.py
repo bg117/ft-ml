@@ -5,9 +5,9 @@ import xml.etree.ElementTree as ET
 
 def xml_to_csv(path):
     xml_list = []
-    train_xml = glob.glob(os.path.join(path + "train", "*.xml"))
-    valid_xml = glob.glob(os.path.join(path + "valid", "*.xml"))
-    test_xml = glob.glob(os.path.join(path + "test", "*.xml"))
+    train_xml = glob.glob(os.path.join(path, "train", "*.xml"))
+    valid_xml = glob.glob(os.path.join(path, "valid", "*.xml"))
+    test_xml = glob.glob(os.path.join(path, "test", "*.xml"))
 
     xml_list.extend(xml_parse(train_xml, "TRAIN"))
     xml_list.extend(xml_parse(valid_xml, "VALIDATION"))
